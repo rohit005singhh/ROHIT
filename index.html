@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>C++ Programs UI</title>
+  <style>
+    body{font-family:Segoe UI,Arial,Helvetica,sans-serif;margin:24px;background:#f7f8fb;color:#111}
+    h1{margin-bottom:8px}
+    .card{background:#fff;border:1px solid #e3e6ee;border-radius:8px;padding:16px;margin:12px 0;box-shadow:0 1px 2px rgba(16,24,40,.03)}
+    label{display:block;margin:8px 0 4px;font-weight:600}
+    input,select,textarea{width:100%;padding:8px;border:1px solid #dfe6f0;border-radius:6px}
+    button{margin-top:10px;padding:8px 12px;border:0;background:#2563eb;color:#fff;border-radius:6px;cursor:pointer}
+    .result{margin-top:10px;padding:8px;background:#f1f5ff;border-radius:6px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:640px){.row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <h1>C++ Programs — Simple Web UI</h1>
+  <p>Quick interface mirroring your C++ programs. Fill inputs and click Run.</p>
+
+  <!-- hello.cpp -->
+  <div class="card">
+    <h2>hello.cpp</h2>
+    <label for="helloName">Name</label>
+    <input id="helloName" placeholder="Enter name">
+    <button onclick="runHello()">Run</button>
+    <div id="helloRes" class="result"></div>
+  </div>
+
+  <!-- details.cpp -->
+  <div class="card">
+    <h2>details.cpp</h2>
+    <label for="detName">Name</label>
+    <input id="detName" placeholder="Full name">
+    <label for="detAge">Age</label>
+    <input id="detAge" type="number" min="0" placeholder="Age">
+    <label for="detAddr">Address</label>
+    <input id="detAddr" placeholder="Address">
+    <button onclick="runDetails()">Show Details</button>
+    <div id="detRes" class="result"></div>
+  </div>
+
+  <!-- fahrenheit.cpp -->
+  <div class="card">
+    <h2>fahrenheit.cpp</h2>
+    <label for="celsius">Celsius</label>
+    <input id="celsius" type="number" placeholder="e.g. 25">
+    <button onclick="runFahrenheit()">Convert to Fahrenheit</button>
+    <div id="fahRes" class="result"></div>
+  </div>
+
+  <!-- lowerTOupper.cpp -->
+  <div class="card">
+    <h2>lowerTOupper.cpp</h2>
+    <label for="lowerText">Text</label>
+    <input id="lowerText" placeholder="Type lowercase or mixed text">
+    <button onclick="runLowerToUpper()">Convert</button>
+    <div id="upRes" class="result"></div>
+  </div>
+
+  <!-- SI.cpp -->
+  <div class="card">
+    <h2>SI.cpp (Simple Interest)</h2>
+    <div class="row">
+      <div>
+        <label for="siP">Principal</label>
+        <input id="siP" type="number" placeholder="Principal">
+      </div>
+      <div>
+        <label for="siR">Rate (%)</label>
+        <input id="siR" type="number" step="any" placeholder="Rate">
+      </div>
+    </div>
+    <label for="siT">Time (years)</label>
+    <input id="siT" type="number" placeholder="Time">
+    <button onclick="runSI()">Calculate SI</button>
+    <div id="siRes" class="result"></div>
+  </div>
+
+  <!-- swap.cpp -->
+  <div class="card">
+    <h2>swap.cpp</h2>
+    <div class="row">
+      <div>
+        <label for="aVal">A</label>
+        <input id="aVal" type="text" placeholder="Value A">
+      </div>
+      <div>
+        <label for="bVal">B</label>
+        <input id="bVal" type="text" placeholder="Value B">
+      </div>
+    </div>
+    <button onclick="runSwap()">Swap</button>
+    <div id="swapRes" class="result"></div>
+  </div>
+
+  <!-- voting.cpp -->
+  <div class="card">
+    <h2>voting.cpp</h2>
+    <label for="voteAge">Age</label>
+    <input id="voteAge" type="number" placeholder="Enter age">
+    <button onclick="runVoting()">Check Eligibility</button>
+    <div id="voteRes" class="result"></div>
+  </div>
+
+  <script>
+    function runHello(){
+      const name = document.getElementById('helloName').value.trim() || 'World';
+      document.getElementById('helloRes').textContent = `Hello, ${name}!`;
+    }
+
+    function runDetails(){
+      const n = document.getElementById('detName').value.trim();
+      const a = document.getElementById('detAge').value;
+      const ad = document.getElementById('detAddr').value.trim();
+      if(!n) return document.getElementById('detRes').textContent = 'Please enter a name.';
+      document.getElementById('detRes').textContent = `Name: ${n} | Age: ${a || 'N/A'} | Address: ${ad || 'N/A'}`;
+    }
+
+    function runFahrenheit(){
+      const c = parseFloat(document.getElementById('celsius').value);
+      if(Number.isNaN(c)) return document.getElementById('fahRes').textContent = 'Enter a valid number.';
+      const f = (c * 9/5) + 32;
+      document.getElementById('fahRes').textContent = `${c} °C = ${f.toFixed(2)} °F`;
+    }
+
+    function runLowerToUpper(){
+      const s = document.getElementById('lowerText').value || '';
+      document.getElementById('upRes').textContent = s.toUpperCase();
+    }
+
+    function runSI(){
+      const P = parseFloat(document.getElementById('siP').value);
+      const R = parseFloat(document.getElementById('siR').value);
+      const T = parseFloat(document.getElementById('siT').value);
+      if([P,R,T].some(x=>Number.isNaN(x))) return document.getElementById('siRes').textContent = 'Enter valid numbers.';
+      const si = (P * R * T) / 100;
+      document.getElementById('siRes').textContent = `Simple Interest = ${si}`;
+    }
+
+    function runSwap(){
+      let a = document.getElementById('aVal').value;
+      let b = document.getElementById('bVal').value;
+      [a,b] = [b,a];
+      document.getElementById('aVal').value = a;
+      document.getElementById('bVal').value = b;
+      document.getElementById('swapRes').textContent = `Swapped: A = ${a}, B = ${b}`;
+    }
+
+    function runVoting(){
+      const age = parseInt(document.getElementById('voteAge').value,10);
+      if(Number.isNaN(age)) return document.getElementById('voteRes').textContent = 'Enter a valid age.';
+      document.getElementById('voteRes').textContent = age >= 18 ? 'Eligible to vote' : 'Not eligible to vote';
+    }
+  </script>
+</body>
+</html>
